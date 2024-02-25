@@ -1,5 +1,7 @@
+from typing import List
 
-def split(text:str, token:list) -> str:
+
+def split(text:str, token:list) -> list[str]:
     tokens = []
     current = ""
     for c in text.replace(' ', '').replace('\n', '').replace('\r', ''):
@@ -45,7 +47,7 @@ def calculate(expression:str) -> str:
             elif token in {'+', '-', '*', '/', '('}:
                 operators.append(token)
             elif token == ')':
-                while(operators[len(operators) - 1] != '('):
+                while operators[len(operators) - 1] != '(':
                     first = numbers.pop()
                     last = numbers.pop()
                     numbers.append(applyOperator(operators.pop(), last, first))
@@ -53,7 +55,7 @@ def calculate(expression:str) -> str:
             else:
                 return "ERROR"   
 
-        while(len(operators) != 0):
+        while len(operators) != 0:
             for priority in priorities:
                 if priority in operators:
                     index = operators.index(priority)
@@ -63,10 +65,10 @@ def calculate(expression:str) -> str:
                     numbers.pop(index + 1)                    
 
                     if len(operators) == 0:
-                        return numbers[index]
+                        return str(numbers[index])
                     
                     break
-        return numbers[0]
+        return str(numbers[0])
     except ZeroDivisionError:
         return "Error"
     except Exception as e:
@@ -81,4 +83,4 @@ def main():
         print(f"{result}")
 
 if __name__ == "__main__":
-  main()
+    main()
