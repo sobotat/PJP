@@ -56,7 +56,7 @@ def process(data:str, useColors=True) -> str:
             out += f"{color}NUM:{resetColor}{token}\n"
         elif token == "mod":
             out += f"{color}MOD{resetColor}\n"
-        else:
+        elif token != "\n":
             out += f"{color}ID:{resetColor}{token}\n"
 
     return out.strip()
