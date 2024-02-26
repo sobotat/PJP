@@ -1,45 +1,11 @@
 from Token import Token
 
-def split(text:str, token: list) -> list[str]:
-    out = []
-    current = ""
-    for c in text.strip().replace('\r', ''):
-        if c == "\n" or c == " ":
-            if current != "":
-                out.append(current)
-                current = ""
-            if c == "\n":
-                out.append("\n")
-            continue
-        elif "0" < c > "9" and current.isnumeric():
-            out.append(current)
-            current = ""
-
-        current += c
-
-        for t in token:
-            if t not in current:
-                continue
-            if t != current and current.split(t)[0] != "":
-                out.append(current.split(t)[0])
-            out.append(t)
-            current = ""
-
-    if len(current) != 0:
-        out.append(current)
-    return out
-
 class Scanner:
 
-    def __init__(self, data):
-        self.data = data
-
-    def process(self) -> list[Token]:
-        tokens = split(self.data, ["(", ")", "+", "-", "*", ";"])
-        print(f"\n{tokens}")
-
+    @staticmethod
+    def process(data:str) -> list[Token]:
         isComment = False
-        for token in tokens:
+        for token in Scanner.split(data,["(", ")", "+", "-", "*", ";"]):
             if token == "//" or isComment:
                 isComment = False if token == "\n" else True
                 continue
@@ -60,3 +26,31 @@ class Scanner:
                 yield Token("MOD")
             elif token != "\n":
                 yield Token("ID", token)
+
+    @staticmethod
+    def split(text: str, token: list) -> list[str]:
+        current = ""
+        for c in text.strip().replace('\r', ''):
+            if c == "\n" or c == " ":
+                if current != "":
+                    yield current
+                    current = ""
+                if c == "\n":
+                    yield "\n"
+                continue
+            elif "0" < c > "9" and current.isnumeric():
+                yield current
+                current = ""
+
+            current += c
+
+            for t in token:
+                if t not in current:
+                    continue
+                if t != current and current.split(t)[0] != "":
+                    yield current.split(t)[0]
+                yield t
+                current = ""
+
+        if len(current) != 0:
+            yield current

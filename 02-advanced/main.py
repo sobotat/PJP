@@ -9,7 +9,7 @@ def execute(data:str, useColors:bool):
     resetColor = "\033[0m" if useColors else ""
 
     print(f"\n\033[1;34mOut:\033[0m")
-    for token in Scanner(data).process():
+    for token in Scanner().process(data):
         if token.value != "":
             print(f"{color}{token.type}:{resetColor}{token.value}")
             continue
