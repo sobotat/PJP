@@ -17,11 +17,10 @@ def split(text:str, token:list) -> list[str]:
         current += c
 
         for t in token:
-            if t in current:
-                if t != current and current.split(t)[0] != "":
-                    out.append(current.split(t)[0])
-                out.append(t)
-                current = ""
+            if t in current and t != current and current.split(t)[0] != "":
+                out.append(current.split(t)[0])
+            out.append(t)
+            current = ""
 
     if len(current) != 0:
         out.append(current)
