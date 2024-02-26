@@ -2,16 +2,23 @@
 def split(text:str, token:list) -> list[str]:
     out = []
     current = ""
-    for c in text.strip().replace(' ', '').replace('\r', ''):
-        if c == "\n":
+    for c in text.strip().replace('\r', ''):
+        if c == "\n" or c == " ":
+            if current != "":
+                out.append(current)
+                current = ""
+            if c == "\n":
+                out.append("\n")
+            continue
+        elif "0" < c > "9" and current.isnumeric():
             out.append(current)
             current = ""
-            continue
 
         current += c
+
         for t in token:
             if t in current:
-                if t != current:
+                if t != current and current.split(t)[0] != "":
                     out.append(current.split(t)[0])
                 out.append(t)
                 current = ""
@@ -22,13 +29,16 @@ def split(text:str, token:list) -> list[str]:
 
 def process(data:str, useColors=True) -> str:
     out = ""
-    tokens = split(data, ["(", ")", "+", "-", "*", "div", "mod", ";"])
+    tokens = split(data, ["(", ")", "+", "-", "*", ";"])
+    #print(f"\n{tokens}")
 
     color = "\033[1;36m" if useColors else ""
     resetColor = "\033[0m" if useColors else ""
 
+    isComment = False
     for token in tokens:
-        if len(token) > 1 and token[0] == "/" and token[1] == '/':
+        if token == "//" or isComment:
+            isComment = False if token == "\n" else True
             continue
 
         if token in ["+", "-", "*"]:
