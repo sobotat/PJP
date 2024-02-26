@@ -1,5 +1,3 @@
-from typing import List
-
 
 def split(text:str, token:list) -> list[str]:
     tokens = []
