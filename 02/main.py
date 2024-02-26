@@ -17,7 +17,9 @@ def split(text:str, token:list) -> list[str]:
         current += c
 
         for t in token:
-            if t in current and t != current and current.split(t)[0] != "":
+            if t not in current:
+                continue
+            if t != current and current.split(t)[0] != "":
                 out.append(current.split(t)[0])
             out.append(t)
             current = ""
@@ -29,7 +31,7 @@ def split(text:str, token:list) -> list[str]:
 def process(data:str, useColors=True) -> str:
     out = ""
     tokens = split(data, ["(", ")", "+", "-", "*", ";"])
-    #print(f"\n{tokens}")
+    # print(f"\n{tokens}")
 
     color = "\033[1;36m" if useColors else ""
     resetColor = "\033[0m" if useColors else ""
