@@ -1,19 +1,15 @@
 import sys
+from Token import Token
 from Scanner import Scanner
 
 def execute(data:str, useColors:bool):
     data = data.strip()
     print(f"\033[1;34mInput:\033[0m\n{data}")
 
-    color = "\033[1;36m" if useColors else ""
-    resetColor = "\033[0m" if useColors else ""
-
     print(f"\n\033[1;34mOut:\033[0m")
+    Token.useColors = useColors
     for token in Scanner().process(data):
-        if token.value != "":
-            print(f"{color}{token.type}:{resetColor}{token.value}")
-            continue
-        print(f"{color}{token.type}{resetColor}")
+        print(token)
 
 def main():
     filename = ""
