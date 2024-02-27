@@ -8,7 +8,7 @@ def execute(data:str, useColors:bool):
 
     print(f"\n\033[1;34mOut:\033[0m")
     Token.useColors = useColors
-    for token in Scanner().process(data):
+    for token in Scanner.process(data):
         print(token)
 
 def main():

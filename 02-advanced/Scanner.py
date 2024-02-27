@@ -5,7 +5,7 @@ class Scanner:
     @staticmethod
     def process(data:str) -> list[Token]:
         isComment = False
-        for token in Scanner.split(data,["(", ")", "+", "-", "*", ";"]):
+        for token in Scanner.__split(data,["(", ")", "+", "-", "*", ";"]):
             if token == "//" or isComment:
                 isComment = False if token == "\n" else True
                 continue
@@ -28,7 +28,7 @@ class Scanner:
                 yield Token("ID", token)
 
     @staticmethod
-    def split(text: str, token: list) -> list[str]:
+    def __split(text: str, token: list) -> list[str]:
         current = ""
         for c in text.strip().replace('\r', ''):
             if c == "\n" or c == " ":
